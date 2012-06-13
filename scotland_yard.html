@@ -1,13 +1,18 @@
 <head>
-  <title>scotland_yard</title>
+    <title>Scotland Yard online</title>
+    <meta name="author" content="Jason Zerbe" />
 </head>
 
 <body>
-  {{> hello}}
+    {{> about}} <br />
+    <div id="gamemap">
+        <img src="map.jpg" alt="map board" />
+    </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="about">
+    <h3>About</h3>
+    {{greeting}}
+    We do not think you will need to reference them, but on the off chance, we have included the
+    <a href="http://globetrotter-games.com/index.htm?E&game/rules/eScotYd1.htm">rules</a>.
 </template>

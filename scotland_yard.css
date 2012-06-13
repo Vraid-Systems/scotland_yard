@@ -1,1 +1,9 @@
-/* CSS declarations go here */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#gamemap {
+    width: 1018px;
+    height: 809px;
+}
