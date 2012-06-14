@@ -6,4 +6,14 @@
 #gamemap {
     width: 1018px;
     height: 809px;
+    position: fixed;
+    top: 50px;
+}
+
+.blue_x {
+    width: 25px;
+    height: 25px;
+    background-image: url('blue_x.png');
+    background-repeat: no-repeat;
+    position: absolute;
 }
