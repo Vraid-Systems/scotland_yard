@@ -3,17 +3,28 @@
     padding: 0;
 }
 
-#gamemap {
-    width: 1018px;
-    height: 809px;
-    position: fixed;
-    top: 50px;
+body {
+    width: 1280px;
+    margin: 0 auto;
 }
 
-.blue_x {
+#right {
+    float: right;
+    min-width: 250px;
+    height: 809px;
+    margin: 0 5px;
+    border: 1px dotted black;
+}
+
+#gamemap {
+    float: left;
+    width: 1018px;
+    height: 809px;
+    position: relative;
+}
+
+.player {
     width: 25px;
     height: 25px;
-    background-image: url('blue_x.png');
-    background-repeat: no-repeat;
     position: absolute;
 }
