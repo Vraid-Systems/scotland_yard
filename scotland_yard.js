@@ -361,7 +361,7 @@ if (Meteor.is_server) {
                 197:[441,722],
                 198:[657,755],
                 199:[807,769]
-            }
+            };
             for (var field in PositionCoordinates) {
                 if (PositionCoordinates[field].length == 2) {
                     Position.insert({ //pre-process for use in plotting overlay
