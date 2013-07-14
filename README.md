@@ -1,12 +1,15 @@
-scotland_yard
-=============
-
+# scotland_yard #
 webapp version of the [Scotland Yard board game](http://www.boardgamegeek.com/boardgame/438/scotland-yard)
 using the [Meteor framework](http://www.meteor.com/).
 
-License
--------
+## Development Environment ##
+- meteor
+- recent browser
+- clone of this repo
 
+Easy/cloudy way: http://c9install.meteor.com/install.html
+
+## License ##
 This software is authored by [Jason Zerbe](http://vraidsys.com/) and licensed
 [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/). Board map.jpg
 taken from [Shashi Mittal's Java implementation](http://scotland-yard.sourceforge.net/).
