@@ -522,18 +522,3 @@ Meteor.startup(function () {
         Black.putNodes(BlackStops);
     }
 });
-
-// update Player state every 30 seconds
-Meteor.setInterval(function () {
-    var now = (new Date()).getTime();
-    var idle_threshold = now - 70*1000; // 70 sec
-    var remove_threshold = now - 60*60*1000; // 1hr
-
-    Players.update(
-            { $lt: { last_keepalive: idle_threshold } },
-            { $set: { idle: true } }
-    );
-    Players.remove(
-            { $lt: { last_keepalive: remove_threshold } }
-    );
-}, 30*1000);
