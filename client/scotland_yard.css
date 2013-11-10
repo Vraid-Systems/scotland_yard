@@ -8,6 +8,19 @@ body {
     margin: 0 auto;
 }
 
+#gamemap {
+    float: left;
+    width: 1018px;
+    height: 809px;
+    position: relative;
+}
+
+#gamemap .player_icon {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+}
+
 #right {
     float: right;
     min-width: 250px;
@@ -16,15 +29,7 @@ body {
     border: 1px dotted black;
 }
 
-#gamemap {
-    float: left;
-    width: 1018px;
-    height: 809px;
-    position: relative;
-}
-
-.player_icon {
-    width: 25px;
-    height: 25px;
-    position: absolute;
+#right #lobby {
+    margin: 0;
+    padding: 2px 5px;
 }

@@ -75,10 +75,6 @@ Template.lobby.events = {
     }
 };
 
-Template.about.greeting = function () {
-    return "Welcome to the online version of Scotland Yard!";
-};
-
 Meteor.startup(function () {
     // Allocate a new player id.
     //
