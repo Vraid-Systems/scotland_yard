@@ -1,7 +1,7 @@
 // load initial data
 Meteor.startup(function () {
     // board # to x,y screen positions
-    if (Position.find().count() === 0) {
+    if (Positions.find().count() === 0) {
         //PositionCoordinates are raw (x,y) pixel from looking at GIMP
         var PositionCoordinates = {
             1:[100,50],
@@ -206,7 +206,7 @@ Meteor.startup(function () {
         };
         for (var boardNumber in PositionCoordinates) {
             if (PositionCoordinates[boardNumber].length === 2) {
-                Position.insert({ //pre-process for use in plotting overlay
+                Positions.insert({ //pre-process for use in plotting overlay
                     node: boardNumber,
                     x: (PositionCoordinates[boardNumber][0] - 20),
                     y: (PositionCoordinates[boardNumber][1] - 10)
