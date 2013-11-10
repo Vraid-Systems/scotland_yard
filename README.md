@@ -7,7 +7,7 @@ using the [Meteor framework](http://www.meteor.com/).
 - recent browser
 - clone of this repo
 
-Easy/cloudy way: http://c9install.meteor.com/install.html
+Cloudy way: http://c9install.meteor.com/install.html
 
 ## License ##
 This software is authored by [Jason Zerbe](http://vraidsys.com/) and licensed
