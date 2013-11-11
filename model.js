@@ -1,13 +1,15 @@
 // data model loaded on client and server
 
-// information about ongoing games
-Games = new Meteor.Collection("games");
-Players = new Meteor.Collection("players");
-
-
 // map board position # to screen x,y
 Positions = new Meteor.Collection("positions");
-
+if (Meteor.isServer) {
+    Meteor.publish("positions", function () {
+        return Positions.find();
+    });
+}
+if (Meteor.isClient) {
+    Meteor.subscribe("positions");
+}
 
 // maps of valid moves by various transportation means
 Underground = new Meteor.Collection("underground");
@@ -30,3 +32,6 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
         }
     }
 };
+
+// games and players
+Players = new Meteor.Collection("players");
