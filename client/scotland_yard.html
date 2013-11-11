@@ -1,13 +1,17 @@
 <head>
-    <title>Scotland Yard online</title>
+    <title>Scotland Yard</title>
     <meta name="author" content="Jason Zerbe" />
 </head>
 
 <body>
     <div id="gamemap">
         <img src="map.jpg" alt="map board" />
-        <img class="player_icon" style="left: 80px; top: 40px;" src="blue_x.png" />
-        <img class="player_icon" style="left: 50px; top: 100px;" src="black_x.png" />
+        <img id="player_black" class="player_icon" style="display: none;" src="black_x.png" />
+        <img id="player_blue" class="player_icon" style="display: none;" src="blue_x.png" />
+        <img id="player_green" class="player_icon" style="display: none;" src="green_x.png" />
+        <img id="player_orange" class="player_icon" style="display: none;" src="orange_x.png" />
+        <img id="player_red" class="player_icon" style="display: none;" src="red_x.png" />
+        <img id="player_yellow" class="player_icon" style="display: none;" src="yellow_x.png" />
     </div>
     <div id="right">
         {{> lobby}}
