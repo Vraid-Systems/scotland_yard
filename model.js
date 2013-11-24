@@ -10,19 +10,25 @@ function createStdCollectionLink(collectionName, collectionObj) {
     }
 }
 
+
 // map board position # to screen x,y
 Positions = new Meteor.Collection("positions");
 createStdCollectionLink("positions", Positions);
 
+
 // maps of valid moves by various transportation means
 Underground = new Meteor.Collection("underground");
 createStdCollectionLink("underground", Underground);
+
 Bus = new Meteor.Collection("bus");
 createStdCollectionLink("bus", Bus);
+
 Taxi = new Meteor.Collection("taxi");
 createStdCollectionLink("taxi", Taxi);
+
 Black = new Meteor.Collection("black"); // Mr. X only - river transit or any of above
 createStdCollectionLink("black", Black);
+
 // used in server-side initialization of transport collections
 Meteor.Collection.prototype.putNodes = function(theNodeMap) {
     for (var theNode in theNodeMap) {
@@ -39,6 +45,7 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
         }
     }
 };
+
 
 // tie user information to in-game player information
 Players = new Meteor.Collection("players");
