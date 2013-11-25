@@ -33,3 +33,10 @@ body {
     margin: 0;
     padding: 2px 5px;
 }
+
+#right #lobby .game {
+    display: block;
+    margin: 0x;
+    pading: 2px 5px;
+    width: 100%;
+}

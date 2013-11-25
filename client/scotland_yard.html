@@ -13,26 +13,19 @@
         <img id="player_5" class="player_icon" style="display: none;" src="yellow_x.png" />
     </div>
     <div id="right">
-        {{> lobby}}
+        {{loginButtons align="right"}}
+        {{#if currentUser}} <!-- user is logged in? -->
+            {{> lobby}}
+        {{/if}}
     </div>
 </body>
 
 <template name="lobby">
-    <div>
-        {{#if show }}
-        <div id="lobby">
-            <strong>What's your name?</strong><br />
-            <input id="myname" type="text" /><br />
-            {{#if count}}
-            <strong>{{count}} other players are in the lobby:</strong><br />
-            {{#each waiting }}
-            <div class="player">{{name}}</div><br />
+    <div id="lobby">
+        {{#if hasGames}}
+            {{#each listGames}}
+                <div class="game">{{name}}</div>
             {{/each}}
-            {{/if}}
-            <div>
-                <button id="startgame" class="startgame" {{{disabled}}}>Start</button>
-            </div>
-        </div>
         {{/if}}
     </div>
 </template>

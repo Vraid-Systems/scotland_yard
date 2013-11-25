@@ -61,3 +61,18 @@ Players.allow({ // allow user client-side CRUD of self
     }
 });
 createStdCollectionLink("players", Players);
+
+// game rooms
+Games = new Meteor.Collection("games");
+Games.allow({ // define room owner vs reader perms
+    insert: function (userId, gameObj) {
+        return true;
+    },
+    update: function (userId, gameObj) {
+        return gameObj.getOwnerId() === userId;
+    },
+    remove: function (userId, gameObj) {
+        return gameObj.getOwnerId() === userId;
+    }
+});
+createStdCollectionLink("games", Games);
