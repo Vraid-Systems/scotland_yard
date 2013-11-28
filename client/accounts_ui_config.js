@@ -2,12 +2,7 @@
 
 Accounts.ui.config({
     requestPermissions: {
-        //facebook: ['email'],
-        //google: ['email'],
-        //github: ['user:email']
+        facebook: []
     },
-    requestOfflineToken: {
-        //google: false
-    },
-    passwordSignupFields: 'USERNAME_AND_EMAIL'
+    passwordSignupFields: 'USERNAME_ONLY'
 });
