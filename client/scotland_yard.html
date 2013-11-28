@@ -13,7 +13,7 @@
         <img id="player_5" class="player_icon" style="display: none;" src="yellow_x.png" />
     </div>
     <div id="right">
-        {{loginButtons align="right"}}
+        {{loginButtons}}
         {{#if currentUser}} <!-- user is logged in? -->
             {{> lobby}}
         {{/if}}
@@ -26,6 +26,10 @@
             {{#each listGames}}
                 <div class="game">{{name}}</div>
             {{/each}}
+        {{/if}}
+        {{#if noGames}}
+            There are no existing games.
+            Why not create one?
         {{/if}}
     </div>
 </template>

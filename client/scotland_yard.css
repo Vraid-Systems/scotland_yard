@@ -23,10 +23,16 @@ body {
 
 #right {
     float: right;
-    min-width: 250px;
+    width: 250px;
     height: 809px;
     margin: 0 5px;
     border: 1px dotted black;
+}
+
+#right #login-buttons {
+    display: block;
+    margin: 15px auto;
+    width: 168px;
 }
 
 #right #lobby {
