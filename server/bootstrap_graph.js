@@ -1,5 +1,5 @@
 // load initial data
-Meteor.startup(function () {
+Meteor.startup(function() {
     // board # to x,y screen positions
     if (Positions.find().count() === 0) {
         //PositionCoordinates are raw (x,y) pixel from looking at GIMP

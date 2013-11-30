@@ -1,7 +1,7 @@
 // data model loaded on client and server
 function createStdCollectionLink(collectionName, collectionObj) {
     if (Meteor.isServer) {
-        Meteor.publish(collectionName, function () {
+        Meteor.publish(collectionName, function() {
             return collectionObj.find();
         });
     }
@@ -50,13 +50,13 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
 // game rooms
 Games = new Meteor.Collection("games");
 Games.allow({ // define room owner vs reader perms
-    insert: function (userId, game) { //userId === Meteor.userId()
+    insert: function(userId, game) { //userId === Meteor.userId()
         return userId && game.owner === userId;
     },
-    update: function (userId, game) {
+    update: function(userId, game) {
         return userId && game.owner === userId;
     },
-    remove: function (userId, game) {
+    remove: function(userId, game) {
         return userId && game.owner === userId;
     },
     fetch: ['owner']
