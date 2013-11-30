@@ -20,9 +20,7 @@ Template.game_create.events({
 
             var gameName = template.find("#game_name").value;
             var gameId = createGame(gameName);
-            var affectedRows = enterGame(gameId);
-
-            if (affectedRows == 1) {
+            if (enterGame(gameId)) {
                 alert(gameName + " created");
             } else {
                 alert(gameName + " failed to be created");
@@ -47,24 +45,30 @@ var createGame = function(gameName) {
     );
     return gameId;
 };
+
 var enterGame = function(gameId) {
-    var affectedRows = Meteor.users.update(
+    return setPlayerGame(gameId);
+};
+var exitGame = function() {
+    return setPlayerGame("");
+};
+var setPlayerGame = function(gameId) {
+    var userObj = Meteor.user();
+    if (!userObj.profile)
+        userObj.profile = {};
+    userObj.profile.gameId = gameId;
+
+    Meteor.users.update(
         { _id: Meteor.userId() },
         {
-            $set: { gameId: gameId }
+            $set: { profile: userObj.profile }
         }
     );
-    return affectedRows;
+
+    userObj = Meteor.user();
+    return userObj.profile.gameId === gameId;
 };
-var exitGame = function(gameId) {
-    var affectedRows = Meteor.users.update(
-        { _id: Meteor.userId() },
-        {
-            $set: { gameId: "" }
-        }
-    );
-    return affectedRows;
-};
+
 var setGameMrX = function(gameId, playerUserId) {
     check(gameId, String);
     check(playerUserId, String);
