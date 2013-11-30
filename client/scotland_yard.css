@@ -40,9 +40,8 @@ body {
     padding: 2px 5px;
 }
 
-#right #lobby .game {
+#right #lobby #game_create {
     display: block;
-    margin: 0x;
-    pading: 2px 5px;
-    width: 100%;
+    margin: 15px auto;
+    width: 60%;
 }

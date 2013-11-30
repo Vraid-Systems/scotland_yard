@@ -16,20 +16,30 @@
         {{loginButtons}}
         {{#if currentUser}} <!-- user is logged in? -->
             {{> lobby}}
+        {{else}}
+            Please log in to access the game lobby.
         {{/if}}
     </div>
 </body>
 
 <template name="lobby">
     <div id="lobby">
+        {{> game_create}}
+        
         {{#if hasGames}}
             {{#each listGames}}
                 <div class="game">{{name}}</div>
             {{/each}}
-        {{/if}}
-        {{#if noGames}}
+        {{else}}
             There are no existing games.
             Why not create one?
         {{/if}}
+    </div>
+</template>
+
+<template name="game_create">
+    <div id="game_create">
+        Create a new game!<br />
+        <input type="text" id="game_name" value="Game Name" onfocus="this.value='';" />
     </div>
 </template>
