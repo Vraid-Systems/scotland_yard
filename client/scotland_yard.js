@@ -1,7 +1,16 @@
 // template logic
-Template.lobby.show = function() {
-    return !Meteor.user().gameId;
+Template.lobby.inGame = function() {
+    return Meteor.user() && Meteor.user().profile && Meteor.user().profile.gameId;
 };
+Template.lobby.game = function () {
+    var gameId = getPlayerGame();
+    return Games.findOne({_id: gameId});
+};
+Template.lobby.events({
+    'click .exit': function() {
+        exitGame();
+    }
+});
 
 var hasGames = function() {
     return Games.find().count() > 0;
@@ -19,12 +28,7 @@ Template.game_create.events({
         if (code == 13) { //Enter keycode
 
             var gameName = template.find("#game_name").value;
-            var gameId = createGame(gameName);
-            if (enterGame(gameId)) {
-                alert(gameName + " created");
-            } else {
-                alert(gameName + " failed to be created");
-            }
+            createGame(gameName);
 
         }
     }
@@ -34,6 +38,9 @@ Template.game_item.isOwner = function() {
     return this.owner === Meteor.userId();
 };
 Template.game_item.events({
+    'click span': function() {
+        enterGame(this._id);
+    },
     'click .trash_button': function() {
         Games.remove(this._id);
     }
@@ -73,9 +80,17 @@ var setPlayerGame = function(gameId) {
             $set: { profile: userObj.profile }
         }
     );
+    Session.set("gameId", gameId);
 
     userObj = Meteor.user();
     return userObj.profile.gameId === gameId;
+};
+var getPlayerGame = function() {
+    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.gameId) {
+        return Meteor.user().profile.gameId;
+    }
+
+    return Session.get("gameId");
 };
 
 var setGameMrX = function(gameId, playerUserId) {

@@ -8,6 +8,17 @@ body {
     margin: 0 auto;
 }
 
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+    margin: -15px -15px;
+}
+
 #gamemap {
     float: left;
     width: 1018px;
@@ -39,13 +50,18 @@ body {
     margin: 0;
     padding: 2px 5px;
 }
+#right #lobby .exit {
+    cursor: pointer;
+}
 #right #lobby #game_create {
-    display: block;
-    margin: 15px auto;
-    width: 60%;
+    margin: 15px 0;
 }
 #right #lobby .game_item {
     line-height: 14px;
+}
+#right #lobby .game_item span {
+    cursor: pointer;
+    font-weight: bold;
 }
 #right #lobby .game_item .trash_button {
     cursor: pointer;

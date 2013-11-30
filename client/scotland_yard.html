@@ -24,15 +24,31 @@
 
 <template name="lobby">
     <div id="lobby">
-        {{> game_create}}
-        
-        {{#if hasGames}}
-            {{#each listGames}}
-                {{> game_item}}
-            {{/each}}
+        {{#if inGame}}
+            <div class="left">
+                {{#with game}}
+                    <b>{{name}}</b>
+                {{/with}}
+            </div>
+            <div class="right">
+                <span class="exit">Exit</span>
+            </div>
+            <div class="clear"></div>
+            <div>
+                In-game lobby HOLDER.
+            </div>
         {{else}}
-            There are no existing games.
-            Why not create one?
+            {{> game_create}}
+            
+            {{#if hasGames}}
+                <i>Existing Games</i>
+                {{#each listGames}}
+                    {{> game_item}}
+                {{/each}}
+            {{else}}
+                There are no existing games.
+                Why not create one?
+            {{/if}}
         {{/if}}
     </div>
 </template>
@@ -46,7 +62,7 @@
 
 <template name="game_item">
     <div class="game_item">
-        {{name}}
+        <span>{{name}}</span>
         {{#if isOwner}}
             <img class="trash_button" src="trash.png" alt="Delete" />
         {{/if}}
