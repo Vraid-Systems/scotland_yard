@@ -37,8 +37,8 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
         var existingValue = this.findOne( { node: { $all: [theNode] } } );
         if (existingValue) {
             this.update(
-                    { node: {$all: [theNode]} },
-                    { $set: {neighbors: theNeighbors} }
+                    { node: theNode },
+                    { $set: { neighbors: theNeighbors } }
             );
         } else {
             this.insert( { node: theNode, neighbors: theNeighbors } );
@@ -47,32 +47,18 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
 };
 
 
-// tie user information to in-game player information
-Players = new Meteor.Collection("players");
-Players.allow({ // allow user client-side CRUD of self
-    insert: function (userId, playerObj) {
-        return true;
-    },
-    update: function (userId, playerObj) {
-        return Meteor.userId() === userId;
-    },
-    remove: function (userId, playerObj) {
-        return Meteor.userId() === userId;
-    }
-});
-createStdCollectionLink("players", Players);
-
 // game rooms
 Games = new Meteor.Collection("games");
 Games.allow({ // define room owner vs reader perms
-    insert: function (userId, gameObj) {
-        return true;
+    insert: function (userId, game) { //userId === Meteor.userId()
+        return userId && game.owner === userId;
     },
-    update: function (userId, gameObj) {
-        return gameObj.getOwnerId() === userId;
+    update: function (userId, game) {
+        return userId && game.owner === userId;
     },
-    remove: function (userId, gameObj) {
-        return gameObj.getOwnerId() === userId;
-    }
+    remove: function (userId, game) {
+        return userId && game.owner === userId;
+    },
+    fetch: ['owner']
 });
 createStdCollectionLink("games", Games);
