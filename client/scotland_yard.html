@@ -28,7 +28,7 @@
         
         {{#if hasGames}}
             {{#each listGames}}
-                <div class="game">{{name}}</div>
+                {{> game_item}}
             {{/each}}
         {{else}}
             There are no existing games.
@@ -41,5 +41,14 @@
     <div id="game_create">
         Create a new game!<br />
         <input type="text" id="game_name" value="Game Name" onfocus="this.value='';" />
+    </div>
+</template>
+
+<template name="game_item">
+    <div class="game_item">
+        {{name}}
+        {{#if isOwner}}
+            <img class="trash_button" src="trash.png" alt="Delete" />
+        {{/if}}
     </div>
 </template>

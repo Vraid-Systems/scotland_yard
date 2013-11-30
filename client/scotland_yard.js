@@ -1,20 +1,20 @@
 // template logic
-Template.lobby.show = function () {
+Template.lobby.show = function() {
     return !Meteor.user().gameId;
 };
 
-var hasGames = function () {
+var hasGames = function() {
     return Games.find().count() > 0;
 };
-Template.lobby.hasGames = function () {
+Template.lobby.hasGames = function() {
     return hasGames();
 };
-Template.lobby.listGames = function () {
+Template.lobby.listGames = function() {
     return Games.find();
 };
 
 Template.game_create.events({
-    'keypress #game_name': function (event, template) {
+    'keypress #game_name': function(event, template) {
         var code = (event.keyCode ? event.keyCode : event.which);
         if (code == 13) { //Enter keycode
 
@@ -27,6 +27,15 @@ Template.game_create.events({
             }
 
         }
+    }
+});
+
+Template.game_item.isOwner = function() {
+    return this.owner === Meteor.userId();
+};
+Template.game_item.events({
+    'click .trash_button': function() {
+        Games.remove(this._id);
     }
 });
 

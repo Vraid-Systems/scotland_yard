@@ -39,9 +39,16 @@ body {
     margin: 0;
     padding: 2px 5px;
 }
-
 #right #lobby #game_create {
     display: block;
     margin: 15px auto;
     width: 60%;
+}
+#right #lobby .game_item {
+    line-height: 14px;
+}
+#right #lobby .game_item .trash_button {
+    cursor: pointer;
+    height: 14px;
+    margin-bottom: -2px;
 }
