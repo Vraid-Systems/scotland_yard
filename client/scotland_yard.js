@@ -26,10 +26,8 @@ Template.game_create.events({
     'keypress #game_name': function(event, template) {
         var code = (event.keyCode ? event.keyCode : event.which);
         if (code == 13) { //Enter keycode
-
             var gameName = template.find("#game_name").value;
             createGame(gameName);
-
         }
     }
 });
