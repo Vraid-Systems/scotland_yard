@@ -35,7 +35,7 @@
             </div>
             <div class="clear"></div>
             <div>
-                In-game lobby HOLDER.
+                {{> game_players}}
             </div>
         {{else}}
             {{> game_create}}
@@ -67,4 +67,16 @@
             <img class="trash_button" src="trash.png" alt="Delete" />
         {{/if}}
     </div>
+</template>
+
+<template name="game_players">
+    {{#if hasPlayers}}
+        <div class="game_players">
+            {{#each listPlayers}}
+                <div class="game_player">
+                    <span id="{{_id}}">{{profile.name}}</span>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
 </template>

@@ -44,6 +44,38 @@ Template.game_item.events({
     }
 });
 
+var listPlayers = function(gameId) {
+    var userList = Meteor.users.find();
+
+    var retUserList = [];
+    userList.forEach(function (user) {
+        if (user && user.profile && user.profile.online) {
+            if (gameId) {
+                if (user.profile.gameId === gameId)
+                    retUserList.push(user);
+            } else {
+                retUserList.push(user);
+            }
+        }
+    });
+
+    return retUserList;
+};
+Template.game_players.listPlayers = function() {
+    return listPlayers(getPlayerGame());
+};
+var hasPlayers = function(gameId) {
+    return listPlayers(gameId).length > 0;
+};
+Template.game_players.hasPlayers = function() {
+    return hasPlayers(getPlayerGame());
+};
+Template.game_players.events({
+    'click span': function(event) {
+        //handle CMD-click to add selected
+    }
+});
+
 
 // game data logic
 var createGame = function(gameName) {
@@ -71,7 +103,9 @@ var setPlayerGame = function(gameId) {
     if (!userObj.profile)
         userObj.profile = {};
     userObj.profile.gameId = gameId;
+    userObj.profile.online = true;
 
+    // update self
     Meteor.users.update(
         { _id: Meteor.userId() },
         {

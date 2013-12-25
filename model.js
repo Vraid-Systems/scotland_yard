@@ -47,7 +47,7 @@ Meteor.Collection.prototype.putNodes = function(theNodeMap) {
 };
 
 
-// game rooms
+// game rooms - only writable by game owner
 Games = new Meteor.Collection("games");
 Games.allow({ // define room owner vs reader perms
     insert: function(userId, game) { //userId === Meteor.userId()
