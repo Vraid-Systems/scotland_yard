@@ -63,7 +63,7 @@ body {
     cursor: pointer;
     font-weight: bold;
 }
-#right #lobby .game_item .trash_button {
+#right #lobby .game_item .button {
     cursor: pointer;
     height: 14px;
     margin-bottom: -2px;

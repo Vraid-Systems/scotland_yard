@@ -36,10 +36,15 @@ Template.game_item.isOwner = function() {
     return this.owner === Meteor.userId();
 };
 Template.game_item.events({
-    'click span': function() {
+    'click .enter': function() {
         enterGame(this._id);
     },
-    'click .trash_button': function() {
+    'click .start': function() {
+        var currentGameId = getPlayerGame();
+        startGame(currentGameId);
+    },
+    'click .trash': function() {
+        exitGame();
         Games.remove(this._id);
     }
 });

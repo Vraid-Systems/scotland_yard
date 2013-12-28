@@ -27,13 +27,15 @@
         {{#if inGame}}
             <div class="left">
                 {{#with game}}
-                    <b>{{name}}</b>
+                    {{> game_item}}
                 {{/with}}
             </div>
             <div class="right">
                 <span class="exit">Exit</span>
             </div>
             <div class="clear"></div>
+            <br />
+            <i>Players</i>
             <div>
                 {{> game_players}}
             </div>
@@ -62,9 +64,10 @@
 
 <template name="game_item">
     <div class="game_item">
-        <span>{{name}}</span>
+        <span class="enter">{{name}}</span>
         {{#if isOwner}}
-            <img class="trash_button" src="trash.png" alt="Delete" />
+            <img class="button start" src="play.png" alt="Start" title="Start Game" />
+            <img class="button trash" src="trash.png" alt="Delete" title="Delete Game" />
         {{/if}}
     </div>
 </template>
