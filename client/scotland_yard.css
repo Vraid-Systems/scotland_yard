@@ -56,6 +56,7 @@ body {
 #right #lobby #game_create {
     margin: 15px 0;
 }
+
 #right #lobby .game_item {
     line-height: 14px;
 }
@@ -67,4 +68,8 @@ body {
     cursor: pointer;
     height: 14px;
     margin-bottom: -2px;
+}
+
+#right #lobby .game_players {
+    margin: 15px 0;
 }

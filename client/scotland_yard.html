@@ -34,11 +34,7 @@
                 <span class="exit">Exit</span>
             </div>
             <div class="clear"></div>
-            <br />
-            <i>Players</i>
-            <div>
-                {{> game_players}}
-            </div>
+            {{> game_players}}
         {{else}}
             {{> game_create}}
             
@@ -75,6 +71,7 @@
 <template name="game_players">
     {{#if hasPlayers}}
         <div class="game_players">
+            <i>Players</i>
             {{#each listPlayers}}
                 <div class="game_player">
                     <span id="{{_id}}">{{profile.name}}</span>
