@@ -44,8 +44,7 @@ Template.game_item.events({
         enterGame(this._id);
     },
     'click .start': function() {
-        var currentGameId = getPlayerGame();
-        startGame(currentGameId);
+        startGame(getPlayerGame());
     },
     'click .trash': function() {
         if (confirm("Are you sure you want to delete this game?")) {
