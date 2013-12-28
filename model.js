@@ -62,3 +62,24 @@ Games.allow({ // define room owner vs reader perms
     fetch: ['owner']
 });
 createStdCollectionLink("games", Games);
+
+
+// log of the game - actions/chat
+GameLog = new Meteor.Collection("gamelog");
+GameLog.allow({ // only allow inserts and reads
+    insert: function(userId, logitem) { //userId === Meteor.userId()
+        return true;
+    },
+    update: function(userId, logitem) {
+        return false;
+    },
+    remove: function(userId, logitem) {
+        if (logitem && logitem.gameId) {
+            var game = Games.findOne({_id: logitem.gameId});
+            return game && game.owner === userId;
+        }
+        return false;
+    },
+    fetch: ['gameId']
+});
+createStdCollectionLink("gamelog", GameLog);

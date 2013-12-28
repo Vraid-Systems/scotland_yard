@@ -50,6 +50,7 @@ Template.game_item.events({
     'click .trash': function() {
         if (confirm("Are you sure you want to delete this game?")) {
             exitGame();
+            game_log_delete_all(this._id);
             Games.remove(this._id);
         }
     }
@@ -88,6 +89,20 @@ Template.game_players.events({
     }
 });
 
+// template - game log items
+Template.game_log.listLogs = function() {
+    return game_log_get_all(getPlayerGame());
+};
+Template.game_log.events({
+    'keypress #new_message': function(event, template) {
+        var code = (event.keyCode ? event.keyCode : event.which);
+        if (code == 13) { //Enter keycode
+            var newMessage = template.find("#new_message").value;
+            game_log_add(getPlayerGame(), newMessage);
+        }
+    }
+});
+
 
 // ! GAME DATA LOGIC ! //
 
@@ -120,9 +135,9 @@ var setPlayerGame = function(gameId) {
     userObj.profile.online = true;
 
     Meteor.users.update(
-        { _id: Meteor.userId() },
+        {_id: Meteor.userId()},
         {
-            $set: { profile: userObj.profile }
+            $set: {profile: userObj.profile}
         }
     );
     Session.set("gameId", gameId);
@@ -143,9 +158,9 @@ var setGameMrX = function(gameId, playerUserId) {
     check(gameId, String);
     check(playerUserId, String);
     var affectedRows = Games.update(
-        { _id: gameId, owner: Meteor.userId() },
+        {_id: gameId, owner: Meteor.userId()},
         {
-            $set: { mrx: playerUserId }
+            $set: {mrx: playerUserId}
         }
     );
     return affectedRows;
@@ -154,9 +169,9 @@ var setGamePlayers = function(gameId, playerUserIds) {
     check(gameId, String);
     check(playerUserIds, Array);
     var affectedRows = Games.update(
-        { _id: gameId, owner: Meteor.userId() },
+        {_id: gameId, owner: Meteor.userId()},
         {
-            $set: { players: playerUserIds }
+            $set: {players: playerUserIds}
         }
     );
     return affectedRows;
@@ -164,9 +179,9 @@ var setGamePlayers = function(gameId, playerUserIds) {
 var startGame = function(gameId) {
     check(gameId, String);
     var affectedRows = Games.update(
-        { _id: gameId, owner: Meteor.userId() },
+        {_id: gameId, owner: Meteor.userId()},
         {
-            $set: { running: true }
+            $set: {running: true}
         }
     );
     return affectedRows;
@@ -174,10 +189,44 @@ var startGame = function(gameId) {
 var stopGame = function(gameId) {
     check(gameId, String);
     var affectedRows = Games.update(
-        { _id: gameId, owner: Meteor.userId() },
+        {_id: gameId, owner: Meteor.userId()},
         {
-            $set: { running: false }
+            $set: {running: false}
         }
     );
     return affectedRows;
+};
+
+
+//! LOGGING OF GAME ACTIONS/MESSAGES ! //
+var game_log_add = function(gameId, textData) {
+    check(gameId, String);
+    check(textData, String);
+    var gameLogId = GameLog.insert(
+        {
+            gameId: gameId,
+            owner: Meteor.userId(),
+            owner_name: Meteor.user().profile.name,
+            textData: textData,
+            time: new Date()
+        }
+    );
+    return gameLogId;
+};
+var game_log_get_all = function(gameId) {
+    check(gameId, String);
+    var gameLogItems = GameLog.find(
+        {gameId: gameId},
+        {sort: {time: 1}}
+    ).fetch();
+    // get all log items associated with game, sort ASC by timestamp
+    // time baked into _id - http://stackoverflow.com/a/5128574
+    return gameLogItems;
+};
+var game_log_delete_all = function (gameId) {
+    check(gameId, String);
+    var gameLogItems = game_log_get_all(gameId);
+    gameLogItems.forEach(function (logItem) {
+        GameLog.remove({_id: logItem._id});
+    });
 };

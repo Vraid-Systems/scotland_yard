@@ -35,6 +35,7 @@
             </div>
             <div class="clear"></div>
             {{> game_players}}
+            {{> game_log}}
         {{else}}
             {{> game_create}}
             
@@ -70,7 +71,7 @@
 
 <template name="game_players">
     {{#if hasPlayers}}
-        <div class="game_players">
+        <div id="game_players">
             <i>Players</i>
             {{#each listPlayers}}
                 <div class="game_player">
@@ -79,4 +80,16 @@
             {{/each}}
         </div>
     {{/if}}
+</template>
+
+<template name="game_log">
+    <div id="game_log">
+        <i>Game Log</i>
+        {{#each listLogs}}
+            <div class="logItem">
+                <span id="{{_id}}">{{owner_name}}: {{textData}}</span>
+            </div>
+        {{/each}}
+        <input type="text" id="new_message" value="cool chat message" onfocus="this.value='';" />
+    </div>
 </template>

@@ -70,6 +70,19 @@ body {
     margin-bottom: -2px;
 }
 
-#right #lobby .game_players {
-    margin: 15px 0;
+#right #lobby #game_players {
+    margin: 15px 0 0 0;
+}
+
+#right #lobby #game_log {
+    margin: 15px 0 0 0;
+}
+#right #lobby #game_log .logItem {
+    border: 1px dotted gray;
+    margin: 2px 5px;
+    padding: 2px 5px;
+}
+#right #lobby #game_log #new_message {
+    margin: 5px 0 0 0;
+    width: 90%;
 }
