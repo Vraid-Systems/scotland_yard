@@ -1,3 +1,5 @@
+/* ! GENERAL PURPOSE ! */
+
 * {
     margin: 0;
     padding: 0;
@@ -19,6 +21,9 @@ body {
     margin: -15px -15px;
 }
 
+
+/* ! GAME BOARD ! */
+
 #gamemap {
     float: left;
     width: 1018px;
@@ -31,6 +36,9 @@ body {
     height: 25px;
     position: absolute;
 }
+
+
+/* ! GAME LOBBY ! */
 
 #right {
     float: right;
