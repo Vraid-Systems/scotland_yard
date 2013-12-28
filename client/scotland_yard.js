@@ -1,7 +1,10 @@
-// template logic
+// ! TEMPLATE LOGIC ! //
+
+// template - top-level lobby
 Template.lobby.inGame = function() {
     return Meteor.user() && Meteor.user().profile && Meteor.user().profile.gameId;
 };
+// in-game
 Template.lobby.game = function () {
     var gameId = getPlayerGame();
     return Games.findOne({_id: gameId});
@@ -11,7 +14,7 @@ Template.lobby.events({
         exitGame();
     }
 });
-
+// out-game
 var hasGames = function() {
     return Games.find().count() > 0;
 };
@@ -21,7 +24,7 @@ Template.lobby.hasGames = function() {
 Template.lobby.listGames = function() {
     return Games.find();
 };
-
+// out-game create game text input
 Template.game_create.events({
     'keypress #game_name': function(event, template) {
         var code = (event.keyCode ? event.keyCode : event.which);
@@ -32,6 +35,7 @@ Template.game_create.events({
     }
 });
 
+// template - game item
 Template.game_item.isOwner = function() {
     return this.owner === Meteor.userId();
 };
@@ -44,11 +48,14 @@ Template.game_item.events({
         startGame(currentGameId);
     },
     'click .trash': function() {
-        exitGame();
-        Games.remove(this._id);
+        if (confirm("Are you sure you want to delete this game?")) {
+            exitGame();
+            Games.remove(this._id);
+        }
     }
 });
 
+// template - player listing in-game
 var listPlayers = function(gameId) {
     var userList = Meteor.users.find();
 
@@ -82,7 +89,8 @@ Template.game_players.events({
 });
 
 
-// game data logic
+// ! GAME DATA LOGIC ! //
+
 var createGame = function(gameName) {
     check(gameName, String);
     var gameId = Games.insert(
@@ -97,6 +105,7 @@ var createGame = function(gameName) {
     return gameId;
 };
 
+// current user enter/exit game profile/session update
 var enterGame = function(gameId) {
     return setPlayerGame(gameId);
 };
@@ -110,7 +119,6 @@ var setPlayerGame = function(gameId) {
     userObj.profile.gameId = gameId;
     userObj.profile.online = true;
 
-    // update self
     Meteor.users.update(
         { _id: Meteor.userId() },
         {
@@ -130,6 +138,7 @@ var getPlayerGame = function() {
     return Session.get("gameId");
 };
 
+// game owner functions for control start/stop, adding players, Mr. X
 var setGameMrX = function(gameId, playerUserId) {
     check(gameId, String);
     check(playerUserId, String);
