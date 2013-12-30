@@ -76,6 +76,11 @@
             {{#each listPlayers}}
                 <div class="game_player">
                     <span id="{{_id}}">{{profile.name}}</span>
+                    <select{{disabledViewer}}>
+                        <option value="spectator">Spectator</option>
+                        <option value="police"{{selectedPolice}}>Police</option>
+                        <option value="mrx"{{selectedMrx}}>Mr X</option>
+                    </select>
                 </div>
             {{/each}}
         </div>
