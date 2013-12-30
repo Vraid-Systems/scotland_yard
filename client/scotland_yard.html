@@ -63,7 +63,9 @@
     <div class="game_item">
         <span class="enter">{{name}}</span>
         {{#if isOwner}}
-            <img class="button start" src="play.png" alt="Start" title="Start Game" />
+            {{#if isStopped}}
+                <img class="button start" src="play.png" alt="Start" title="Start Game" />
+            {{/if}}
             <img class="button trash" src="trash.png" alt="Delete" title="Delete Game" />
         {{/if}}
     </div>
@@ -76,7 +78,7 @@
             {{#each listPlayers}}
                 <div class="game_player">
                     <span id="{{_id}}">{{profile.name}}</span>
-                    <select{{disabledViewer}}>
+                    <select class="character"{{disabledViewer}}>
                         <option value="spectator">Spectator</option>
                         <option value="police"{{selectedPolice}}>Police</option>
                         <option value="mrx"{{selectedMrx}}>Mr X</option>

@@ -39,6 +39,9 @@ Template.game_create.events({
 Template.game_item.isOwner = function() {
     return this.owner === Meteor.userId();
 };
+Template.game_item.isStopped = function() {
+    return !this.running;
+};
 Template.game_item.events({
     'click .enter': function() {
         enterGame(this._id);
@@ -101,6 +104,16 @@ Template.game_players.selectedPolice = function() {
     else
         return '';
 };
+Template.game_players.events({
+    'change .character': function(event, template) {
+        var playerId = this._id;
+        if (playerId && event && event.target
+                && event.target.selectedOptions && (event.target.selectedOptions.length == 1)) {
+            var characterType = event.target.selectedOptions[0].value;
+            setGameCharacter(getPlayerGame(), playerId, characterType);
+        }
+    }
+});
 
 // template - game log items
 Template.game_log.listLogs = function() {
@@ -149,9 +162,7 @@ var setPlayerGame = function(gameId) {
 
     Meteor.users.update(
         {_id: Meteor.userId()},
-        {
-            $set: {profile: userObj.profile}
-        }
+        { $set: {profile: userObj.profile} }
     );
     Session.set("gameId", gameId);
 
@@ -178,22 +189,32 @@ var getGameOwner = function(gameId) {
         return game.owner;
     return '';
 };
+var setGameCharacter = function(gameId, userId, characterType) {
+    if (characterType === "mrx") {
+        setGameMrX(gameId, userId);
+    } else if (characterType === "police") {
+        setUnionGamePolice(gameId, userId);
+    } else {
+        resetMrX(gameId, userId);
+        removeFromPolice(gameId, userId);
+    }
+};
 var getGameMrX = function(gameId) {
     var game = getGameById(gameId);
     if (game && game.mrx)
         return game.mrx;
     return '';
 };
-var setGameMrX = function(gameId, playerUserId) {
+var setGameMrX = function(gameId, userId) {
     check(gameId, String);
-    check(playerUserId, String);
-    var affectedRows = Games.update(
-        {_id: gameId, owner: Meteor.userId()},
-        {
-            $set: {mrx: playerUserId}
-        }
+    check(userId, String);
+
+    removeFromPolice(gameId, userId);
+
+    Games.update(
+        {_id: gameId},
+        { $set: {mrx: userId} }
     );
-    return affectedRows;
 };
 var getGamePolice = function(gameId) {
     var game = getGameById(gameId);
@@ -201,36 +222,46 @@ var getGamePolice = function(gameId) {
         return game.police;
     return [];
 };
-var setGamePolice = function(gameId, policeUserIds) {
+var setUnionGamePolice = function(gameId, userId) {
     check(gameId, String);
-    check(policeUserIds, Array);
-    var affectedRows = Games.update(
-        {_id: gameId, owner: Meteor.userId()},
-        {
-            $set: {police: policeUserIds}
-        }
+    check(userId, String);
+
+    resetMrX(gameId, userId);
+    removeFromPolice(gameId, userId);
+
+    Games.update(
+        {_id: gameId},
+        { $addToSet: {police: userId} }
     );
-    return affectedRows;
+};
+var resetMrX = function(gameId, userId) {
+    var game = Games.findOne({_id: gameId});
+    if (game && game.mrx && (game.mrx === userId)) {
+        Games.update(
+            {_id: gameId},
+            { $set: {mrx: ''} }
+        );
+    }
+};
+var removeFromPolice = function(gameId, userId) {
+    Games.update(
+        {_id: gameId},
+        { $pull: {police: userId} }
+    );
 };
 var startGame = function(gameId) {
     check(gameId, String);
-    var affectedRows = Games.update(
-        {_id: gameId, owner: Meteor.userId()},
-        {
-            $set: {running: true}
-        }
+    Games.update(
+        {_id: gameId},
+        { $set: {running: true} }
     );
-    return affectedRows;
 };
 var stopGame = function(gameId) {
     check(gameId, String);
-    var affectedRows = Games.update(
-        {_id: gameId, owner: Meteor.userId()},
-        {
-            $set: {running: false}
-        }
+    Games.update(
+        {_id: gameId},
+        { $set: {running: false} }
     );
-    return affectedRows;
 };
 
 
