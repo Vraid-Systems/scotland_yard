@@ -135,6 +135,7 @@ Template.game_log.events({
 
 
 //! PROFILE DATA LOGIC ! //
+
 var getUserById = function(userId) {
     return Meteor.users.findOne({_id: userId});
 };
@@ -250,6 +251,19 @@ var setUnionGamePolice = function(gameId, userId) {
         {_id: gameId},
         { $addToSet: {police: userId} }
     );
+
+    // limit to 6 police officers
+    var game = getGameById(gameId);
+    if (game.police && game.police.length > 6) {
+        game.police.splice(6, (game.police.length - 6));
+
+        Games.update(
+            {_id: gameId},
+            { $set: {police: game.police} }
+        );
+
+        alert("There can only be 6 police officers!");
+    }
 };
 var resetMrX = function(gameId, userId) {
     var game = Games.findOne({_id: gameId});
