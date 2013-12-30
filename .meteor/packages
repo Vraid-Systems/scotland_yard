@@ -4,5 +4,7 @@
 # but you can also edit it by hand.
 
 accounts-ui
+accounts-google
 accounts-facebook
+accounts-twitter
 standard-app-packages
