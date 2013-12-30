@@ -39,8 +39,8 @@ Template.game_create.events({
 Template.game_item.isOwner = function() {
     return this.owner === Meteor.userId();
 };
-Template.game_item.isStopped = function() {
-    return !this.running;
+Template.game_item.isRunning = function() {
+    return this.running;
 };
 Template.game_item.events({
     'click .enter': function() {
@@ -48,6 +48,9 @@ Template.game_item.events({
     },
     'click .start': function() {
         startGame(getPlayerGame());
+    },
+    'click .stop': function() {
+        stopGame(getPlayerGame());
     },
     'click .trash': function() {
         if (confirm("Are you sure you want to delete this game?")) {
@@ -86,7 +89,8 @@ Template.game_players.hasPlayers = function() {
     return hasPlayers(getPlayerGame());
 };
 Template.game_players.disabledViewer = function() {
-    if (getGameOwner(getPlayerGame()) === Meteor.userId())
+    if (getGameOwner(getPlayerGame()) === Meteor.userId()
+            && !getGameById(getPlayerGame()).running)
         return '';
     else
         return ' disabled="disabled"';
@@ -130,20 +134,15 @@ Template.game_log.events({
 });
 
 
-// ! GAME DATA LOGIC ! //
-
-var createGame = function(gameName) {
-    check(gameName, String);
-    var gameId = Games.insert(
-        {
-            name: gameName,
-            owner: Meteor.userId(),
-            police: [],
-            mrx: "",
-            running: false
-        }
-    );
-    return gameId;
+//! PROFILE DATA LOGIC ! //
+var getUserById = function(userId) {
+    return Meteor.users.findOne({_id: userId});
+};
+var getProfileByUserId = function(userId) {
+    var userObj = getUserById(userId);
+    if (userObj && userObj.profile)
+        return userObj.profile;
+    return null;
 };
 
 // current user enter/exit game profile/session update
@@ -170,11 +169,29 @@ var setPlayerGame = function(gameId) {
     return userObj.profile.gameId === gameId;
 };
 var getPlayerGame = function() {
-    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.gameId) {
-        return Meteor.user().profile.gameId;
+    var profile = getProfileByUserId(Meteor.userId());
+    if (profile && profile.gameId) {
+        return profile.gameId;
     }
 
     return Session.get("gameId");
+};
+
+
+// ! GAME DATA LOGIC ! //
+
+var createGame = function(gameName) {
+    check(gameName, String);
+    var gameId = Games.insert(
+        {
+            name: gameName,
+            owner: Meteor.userId(),
+            police: [],
+            mrx: "",
+            running: false
+        }
+    );
+    return gameId;
 };
 
 // game owner functions for control start/stop, adding Police, Mr. X
@@ -251,33 +268,43 @@ var removeFromPolice = function(gameId, userId) {
 };
 var startGame = function(gameId) {
     check(gameId, String);
+
     Games.update(
         {_id: gameId},
         { $set: {running: true} }
     );
+
+    game_log_add(gameId, "Game Started", "System");
 };
 var stopGame = function(gameId) {
     check(gameId, String);
+
     Games.update(
         {_id: gameId},
         { $set: {running: false} }
     );
+
+    game_log_add(gameId, "Game Stopped", "System");
 };
 
 
 //! LOGGING OF GAME ACTIONS/MESSAGES ! //
-var game_log_add = function(gameId, textData) {
+var game_log_add = function(gameId, textData, ownerName) {
+    ownerName = (typeof ownerName !== 'undefined') ? ownerName : Meteor.user().profile.name;
+
     check(gameId, String);
     check(textData, String);
+
     var gameLogId = GameLog.insert(
         {
             gameId: gameId,
             owner: Meteor.userId(),
-            owner_name: Meteor.user().profile.name,
+            owner_name: ownerName,
             textData: textData,
             time: new Date()
         }
     );
+
     return gameLogId;
 };
 var game_log_get_all = function(gameId) {

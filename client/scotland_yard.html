@@ -63,7 +63,9 @@
     <div class="game_item">
         <span class="enter">{{name}}</span>
         {{#if isOwner}}
-            {{#if isStopped}}
+            {{#if isRunning}}
+                <img class="button stop" src="stop.png" alt="Stop" title="Stop Game" />
+            {{else}}
                 <img class="button start" src="play.png" alt="Start" title="Start Game" />
             {{/if}}
             <img class="button trash" src="trash.png" alt="Delete" title="Delete Game" />
