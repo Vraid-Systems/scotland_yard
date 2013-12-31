@@ -283,6 +283,13 @@ var removeFromPolice = function(gameId, userId) {
 var startGame = function(gameId) {
     check(gameId, String);
 
+    // ensure at least two human factions
+    var game = getGameById(gameId);
+    if (!(game && game.mrx && game.police && (game.police.length > 0))) {
+        alert("There has to be at least 1 player controlling the police and 1 player for Mr X.");
+        return;
+    }
+
     Games.update(
         {_id: gameId},
         { $set: {running: true} }
