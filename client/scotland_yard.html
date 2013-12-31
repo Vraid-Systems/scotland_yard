@@ -79,7 +79,7 @@
             <i>Players</i>
             {{#each listPlayers}}
                 <div class="game_player">
-                    <span id="{{_id}}">{{profile.name}}</span>
+                    <span id="{{_id}}" class="{{gameOwnerClass}}">{{profile.name}}</span>
                     <select class="character"{{disabledViewer}}>
                         <option value="spectator">Spectator</option>
                         <option value="police"{{selectedPolice}}>Police</option>

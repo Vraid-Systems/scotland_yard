@@ -81,6 +81,9 @@ body {
 #right #lobby #game_players {
     margin: 15px 0 0 0;
 }
+#right #lobby #game_players .game_player .owner {
+    font-weight: bold;
+}
 
 #right #lobby #game_log {
     margin: 15px 0 0 0;

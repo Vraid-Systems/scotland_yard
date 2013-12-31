@@ -88,22 +88,31 @@ var hasPlayers = function(gameId) {
 Template.game_players.hasPlayers = function() {
     return hasPlayers(getPlayerGame());
 };
+var isGameOwner = function(gameId, userId) {
+    return getGameOwner(gameId) === userId;
+};
+Template.game_players.gameOwnerClass = function() {
+    if (isGameOwner(getPlayerGame(), this._id))
+        return ' owner';
+    else
+        return '';
+};
 Template.game_players.disabledViewer = function() {
-    if (getGameOwner(getPlayerGame()) === Meteor.userId()
+    if (isGameOwner(getPlayerGame(), Meteor.userId())
             && !getGameById(getPlayerGame()).running)
         return '';
     else
         return ' disabled="disabled"';
 };
 Template.game_players.selectedMrx = function() {
-    if (getGameMrX(getPlayerGame()) === Meteor.userId())
+    if (getGameMrX(getPlayerGame()) === this._id)
         return ' selected="selected"';
     else
         return '';
 };
 Template.game_players.selectedPolice = function() {
     var policeArray = getGamePolice(getPlayerGame());
-    if (policeArray && (policeArray.indexOf(Meteor.userId()) > -1))
+    if (policeArray && (policeArray.indexOf(this._id) > -1))
         return ' selected="selected"';
     else
         return '';
